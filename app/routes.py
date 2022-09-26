@@ -13,9 +13,18 @@ def users():
     else :
         return UserController.save()
 
+@app.route('/userAdmin', methods=['POST'])
+def useradmin():
+    return UserController.buatAdmin()
+
+
 @app.route('/user/<id>', methods=['PUT', 'DELETE'])
 def userdel(id):
     if request.method == 'PUT':
         return UserController.updateUser(id)
-    else : 
+    elif request.method == 'DELETE': 
         return UserController.userdelete(id)
+
+@app.route('/login', methods=['POST'])
+def logins():
+    return UserController.login()
