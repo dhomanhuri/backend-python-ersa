@@ -1,9 +1,50 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from fileinput import filename
 from app.model.user import User
+from app.model.gambar import Gambar
+import os
 from flask import request
-from app import response, app, db
+from app import response, app, db, uploadconfig
+import uuid
+from werkzeug.utils import secure_filename
 from flask_jwt_extended import *
 
+
+def upload():
+    try:
+        judul = request.form.get('judul')
+        
+        if 'file' not in request.files:
+            return response.response.badRequest([],"file salah")
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return response.badRequest([],'file tidak ada')
+
+        if file and uploadconfig.allowed_file(file.filename):
+            uid = uuid.uuid4()
+            filename = secure_filename(file.filename)
+            renamefile = "Flask-"+str(uid)+filename
+
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],renamefile))
+
+            uploads = Gambar(judul=judul, pathname=renamefile)
+            db.session.add(uploads)
+            db.session.commit()
+
+            return response.success(
+                {
+                    'judul' : judul,
+                    'pathname' : renamefile
+                },
+                "sukses upload"
+            )
+        else:
+            return response.badRequest([],"file gagal disimpan")
+
+    except Exception as e:
+        print(e)
 
 def index():
     try:
@@ -127,9 +168,10 @@ def login():
     try:
         email = request.form.get('email')
         password = request.form.get('password')
-
+        # print(email)
+        # print(password)
         user = User.query.filter_by(email=email).first()
-
+        # print(user)
         if not user:
             return response.badRequest([], 'Email tidak terdaftar')
         
@@ -137,16 +179,17 @@ def login():
             return response.badRequest([], 'Kombinasi password salah')
 
         
-        data = singleObjectData(user)
+        data2 = singleObjectData(user)
 
-        expires = datetime.timedelta(days=7)
-        expires_refresh = datetime.timedelta(days=7)
-
-        acces_token = create_access_token(data, fresh=True, expires_delta= expires)
-        refresh_token = create_refresh_token(data, expires_delta=expires_refresh)
-
+        # ini_time_for_now = datetime.now()
+        expires = timedelta(days=7)
+        expires_refresh = timedelta(days=7)
+        # print(expires)
+        acces_token = create_access_token(data2, fresh=True, expires_delta=expires)
+        refresh_token = create_refresh_token(data2, expires_delta=expires_refresh)
+        print(acces_token)
         return response.success({
-            "data" : data,
+            "data" : data2,
             "access_token" : acces_token,
             "refresh_token" : refresh_token,
         }, "Sukses Login!")
