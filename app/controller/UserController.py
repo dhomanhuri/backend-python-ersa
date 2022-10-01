@@ -1,7 +1,9 @@
+from array import array
 from datetime import datetime, timedelta
 from fileinput import filename
 from app.model.user import User
 from app.model.gambar import Gambar
+from app.model.datasensor import Datasensor
 import os
 from flask import request
 from app import response, app, db, uploadconfig
@@ -46,6 +48,32 @@ def upload():
     except Exception as e:
         print(e)
 
+def datasensor():
+    try:
+        sensor = Datasensor.query.all()
+        data = formatarraysensor(sensor)
+        return response.success(data,"success")
+
+    except Exception as e:
+        print(e)
+
+def formatarraysensor(datas):
+    array = []
+
+    for i in datas:
+        array.append(singleObjectSensor(i))
+
+    return array
+
+def singleObjectSensor(data):
+    data = {
+        'id' : data.id,
+        'temp' : data.temp,
+        'hum' : data.hum,
+        'updated_at' : data.updated_at
+    }
+    return data
+
 def index():
     try:
         user = User.query.all()
@@ -74,6 +102,31 @@ def singleObject(data):
         'updated_at' : data.updated_at
     }
     return data
+
+def updatesensor():
+    try:
+        temp = request.form.get('temp'),
+        hum = request.form.get('hum'),
+
+        sensor = Datasensor.query.filter_by(id=1).first()
+        sensor.temp = temp
+        sensor.hum = hum
+        # print(sensor.temp)
+        input = [
+            {
+                'temp' : temp,
+                'hum' : hum
+            }
+        ]
+
+        # datasensor = Datasensor(temp=temp,hum=hum)
+        # db.session.add(datasensor)
+        db.session.commit()
+
+        return response.success(input, "berhasil menambahkan data sensor")
+
+    except Exception as e:
+        print(e)
 
 def save():
     try:

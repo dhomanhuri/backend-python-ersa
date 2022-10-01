@@ -11,6 +11,13 @@ from flask_jwt_extended import jwt_required
 def index():
     return('hello ersa app')
 
+@app.route('/sensor', methods=['GET','PUT'])
+def dataupload():
+    if request.method == 'GET':
+        return UserController.datasensor()
+    else:
+        return UserController.updatesensor()
+
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
@@ -20,6 +27,7 @@ def protected():
 @app.route('/file-upload', methods=['POST'])
 def uploads():
     return UserController.upload()
+
 
 @app.route('/user', methods=['GET', 'POST'])
 @jwt_required()
