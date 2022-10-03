@@ -10,7 +10,19 @@ from app import response, app, db, uploadconfig
 import uuid
 from werkzeug.utils import secure_filename
 from flask_jwt_extended import *
+from app.controller.imagefromfile import *
 
+
+
+def imageprocessing():
+    try :
+        gambar = Gambar.query.all()
+        filename = str(gambar[-1].pathname)
+        funcopencv(filename)
+        return response.success([],"berhasil image processing")
+
+    except Exception as e:
+        print(e)
 
 def upload():
     try:

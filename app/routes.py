@@ -2,7 +2,7 @@ from crypt import methods
 from urllib import response
 from app import app,response
 from app.controller import UserController
-from flask import request
+from flask import request, send_file
 
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -10,6 +10,14 @@ from flask_jwt_extended import jwt_required
 @app.route('/')
 def index():
     return('hello ersa app')
+
+@app.route('/image', methods=['GET'])
+def imagefile():
+    return send_file("upload/perbedaan-telur-ayam-bebe.webp", mimetype='image/gif')
+
+@app.route('/imageprocessing', methods=['get'])
+def routeimgproc():
+    return UserController.imageprocessing()
 
 @app.route('/sensor', methods=['GET','PUT'])
 def dataupload():
