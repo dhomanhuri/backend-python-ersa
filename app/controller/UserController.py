@@ -86,6 +86,34 @@ def singleObjectSensor(data):
     }
     return data
 
+def newimg():
+    try:
+        sensor = Gambar.query.all()
+        data = formatarraysensor2(sensor)
+        return response.success(data,"success")
+
+    except Exception as e:
+        print(e)
+
+def formatarraysensor2(datas):
+    array = []
+
+    for i in datas:
+        array.append(singleObjectSensor2(i))
+
+    return array
+
+def singleObjectSensor2(data):
+    data = {
+
+        'judul' : data.judul,
+        'pathname' : data.pathname,
+        # 'temp' : data.temp,
+        # 'hum' : data.hum,
+        # 'updated_at' : data.updated_at
+    }
+    return data
+
 def index():
     try:
         user = User.query.all()

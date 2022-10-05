@@ -25,6 +25,9 @@ def dataupload():
         return UserController.datasensor()
     else:
         return UserController.updatesensor()
+@app.route('/newimg', methods=['GET'])
+def newimg():
+    return UserController.newimg()
 
 @app.route('/protected', methods=['GET'])
 @jwt_required()
