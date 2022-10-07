@@ -15,7 +15,7 @@ def index():
 def imagefile():
     return send_file("upload/perbedaan-telur-ayam-bebe.webp", mimetype='image/gif')
 
-@app.route('/imageprocessing', methods=['get'])
+@app.route('/imageprocessing', methods=['GET'])
 def routeimgproc():
     return UserController.imageprocessing()
 
