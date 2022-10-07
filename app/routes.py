@@ -49,7 +49,7 @@ def users():
         return UserController.save()
 
 @app.route('/userAdmin', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def useradmin():
     return UserController.buatAdmin()
 

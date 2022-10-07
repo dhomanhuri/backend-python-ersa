@@ -121,7 +121,7 @@ def funcopencv(filename):
 
 
     cv2.imwrite(pathfile, frame)
-    # return uid
+    return pathfile
     
 
 # funcopencv()

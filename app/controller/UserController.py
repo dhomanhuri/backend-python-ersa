@@ -18,8 +18,10 @@ def imageprocessing():
     try :
         gambar = Gambar.query.all()
         filename = str(gambar[-1].pathname)
-        funcopencv(filename)
-        return response.success([],"berhasil image processing")
+        fileprocess = funcopencv(filename)
+        return response.success(
+            {'data' : fileprocess}
+            ,"berhasil image processing")
 
     except Exception as e:
         print(e)
