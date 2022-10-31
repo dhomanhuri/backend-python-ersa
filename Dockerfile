@@ -5,7 +5,7 @@ FROM python:3.8-alpine
 WORKDIR /app
 
 # Install app dependencies
-COPY requirements.txt ./
+# COPY requirements.txt ./
 
 # RUN pip install -r requirements.txt
 
