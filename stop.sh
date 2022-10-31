@@ -1,3 +1,3 @@
-sudo docker stop imgpro
-sudo docker rm imgpro
-sudo docker rmi imgpro-app:latest
+sudo docker stop ersa
+sudo docker rm ersa
+sudo docker rmi ersa-app:latest
