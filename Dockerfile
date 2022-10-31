@@ -14,6 +14,9 @@ WORKDIR /rootapp
 RUN pip install -r requirements.txt
 
 # copy every content from the local file to the image
+flask db init
+flask db migrate
+flask db upgrade
 COPY . /rootapp
 
 # configure the container to run in an executed manner
