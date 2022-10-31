@@ -11,12 +11,10 @@ COPY ./requirements.txt /rootapp/requirements.txt
 WORKDIR /rootapp
 
 # install the dependencies and packages in the requirements file
-RUN pip install -r requirements.txt
+#RUN pip install -r requirements.txt
 
 # copy every content from the local file to the image
-RUN flask db init
-RUN flask db migrate
-RUN flask db upgrade
+
 COPY . /rootapp
 
 # configure the container to run in an executed manner
