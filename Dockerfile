@@ -1,15 +1,16 @@
 # start by pulling the python image
 FROM python:3.8-alpine
 
-# create directory app
-RUN mkdir /rootapp
+# Create app directory
+WORKDIR /app
 
-# set or make /app our working directory
-WORKDIR /rootapp
+# Install app dependencies
+COPY requirements.txt ./
 
-# copy all files to /app
-COPY ./ /rootapp
+RUN pip install -r requirements.txt
 
+# Bundle app source
+COPY . .
 
-# configure the container to run in an executed manner
-CMD ["flask", "run", "--host=0.0.0.0"]
+EXPOSE 5000
+CMD [ "flask", "run","--host","0.0.0.0","--port","5000"]
