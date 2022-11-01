@@ -239,7 +239,7 @@ def buatAdmin():
         password = request.form.get('password')
         level = 1
 
-        users = User(name=name, email=email, level=level)
+        users = User(name=name, password=password, email=email, level=level)
         users.setPassword(password)
         db.session.add(users)
         db.session.commit()
