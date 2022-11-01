@@ -1,11 +1,11 @@
 # start by pulling the python image
-FROM python:3.10-alpine
+FROM ubuntu
 
 
 WORKDIR /python-docker
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# COPY requirements.txt requirements.txt
+# RUN pip install -r requirements.txt
 
 # RUN pip install opencv-python
 # RUN pip install flask
