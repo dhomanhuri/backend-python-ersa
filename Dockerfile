@@ -2,8 +2,10 @@
 
 FROM python:3.10-slim-buster
 
-WORKDIR /python-docker
-RUN source /root/dataenv/bin/activate
+RUN python3 -m venv /opt/venv
+
+# This is wrong!
+RUN . /opt/venv/bin/activate
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
